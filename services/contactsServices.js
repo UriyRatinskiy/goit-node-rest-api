@@ -44,3 +44,16 @@ export const addContact = async (data) => {
   await updateContacts(contacts);
   return newContact;
 };
+
+export const updateContact = async (contactId, data) => {
+  //  Оновлення контакту (з id).
+  const contacts = await listContacts();
+  const index = contacts.findIndex((contact) => contact.id === contactId);
+  if (index === -1) {
+    return null;
+  }
+  contacts[index] = { ...contacts[index], ...data };
+  await updateContacts(contacts);
+
+  return contacts[index];
+};
