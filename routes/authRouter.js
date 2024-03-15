@@ -2,6 +2,8 @@ import express from "express";
 
 import authController from "../controllers/authController.js";
 
+import validateBody from "../decorators/validateBody.js";
+
 import { userSignupSchema, userSigninSchema } from "../schemas/userSchema.js";
 
 const authRouter = express.Router();
@@ -9,7 +11,7 @@ const authRouter = express.Router();
 authRouter.post(
   "/signup",
   validateBody(userSignupSchema),
-  authController.singup
+  authController.signup
 );
 
 export default authRouter;
