@@ -5,16 +5,23 @@ import {
   updateContactSchema,
   updateFavoriteSchema,
 } from "../schemas/contactsSchemas.js";
-import { request } from "express";
+// import { request } from "express";
 
 export const getAllContacts = async (req, res, next) => {
   try {
-    const result = await contactsService.listContacts();
+    const { _id: owner } = req.user;
+    const result = await contactsService.listContacts({ owner });
     res.status(200).json(result);
   } catch (error) {
     next(error);
   }
 };
+
+// export const add = async (req, res) => {
+//   const { _id: owner } = req.user;
+//   const result = await contactsService.addContact({ ...req.body, owner });
+//   res.status(201).json(result);
+// };
 
 export const getOneContact = async (req, res, next) => {
   try {

@@ -4,14 +4,15 @@ import authController from "../controllers/authController.js";
 
 import validateBody from "../decorators/validateBody.js";
 
-import { userSignupSchema, userSigninSchema } from "../schemas/userSchema.js";
+import { userSignupSchema, userSigninSchema } from "../schemas/userSchemas.js";
 
 const authRouter = express.Router();
 
 authRouter.post(
-  "/signup",
+  "/register",
   validateBody(userSignupSchema),
-  authController.signup
+  authController.register
 );
+authRouter.post("/login", validateBody(userSigninSchema), authController.login);
 
 export default authRouter;
