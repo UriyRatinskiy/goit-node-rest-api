@@ -1,5 +1,6 @@
 import express from "express";
 import isValidId from "../middlevares/isValidId.js";
+import aunthenticate from "../middlevares/aunthenticate.js";
 import {
   getAllContacts,
   getOneContact,
@@ -10,6 +11,8 @@ import {
 } from "../controllers/contactsControllers.js";
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(aunthenticate);
 
 contactsRouter.get("/", getAllContacts);
 
