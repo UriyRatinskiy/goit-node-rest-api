@@ -17,8 +17,8 @@ const register = async (req, res) => {
   }
   const newUser = await authServices.register(req.body);
   res.status(201).json({
-    username: newUser.username,
     email: newUser.email,
+    subscription: "starter",
   });
 };
 
@@ -44,10 +44,26 @@ const login = async (req, res) => {
   // const token = "122.3121.333";
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
 
-  res.json({ token });
+  await authServices.updateUser({ _id: id }, { token });
+
+  res.json({ token: token, user: { email: email, subscription: "starter" } });
+};
+
+const logoutUser = async (req, res) => {
+  const { _id } = req.user;
+  await authServices.updateUser({ _id }, { token: null });
+
+  res.status(204).json({ message: "Not authorized" });
+};
+
+const getCurrentUser = async (req, res) => {
+  const { email, subscription } = req.user;
+  res.status(200).json({ email, subscription });
 };
 
 export default {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  logoutUser: ctrlWrapper(logoutUser),
+  getCurrentUser: ctrlWrapper(getCurrentUser),
 };
