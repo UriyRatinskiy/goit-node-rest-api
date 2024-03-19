@@ -41,6 +41,7 @@ const login = async (req, res) => {
     id,
   };
 
+  // const token = "122.3121.333";
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
 
   res.json({ token });
