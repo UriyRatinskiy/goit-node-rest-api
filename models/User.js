@@ -2,6 +2,8 @@ import { Schema, model } from "mongoose";
 
 import { handleSaveError, setUpdateSettings } from "./hooks.js";
 
+// import { emailRegexp } from "../constans/user-constants.js";
+
 const userSchema = new Schema(
   {
     password: {
