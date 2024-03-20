@@ -16,10 +16,9 @@ const register = async (req, res) => {
     throw HttpError(409, "Email in use");
   }
   const newUser = await authServices.register(req.body);
-  res.status(201).json({
-    email: newUser.email,
-    subscription: "starter",
-  });
+  res
+    .status(201)
+    .json({ user: { email: newUser.email, subscription: "starter" } });
 };
 
 const login = async (req, res) => {
