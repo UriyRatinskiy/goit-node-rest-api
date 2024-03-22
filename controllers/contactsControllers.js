@@ -52,23 +52,13 @@ export const deleteContact = async (req, res, next) => {
 };
 
 export const createContact = async (req, res, next) => {
-  try {
-    const { name, email, phone } = req.body;
-    const { _id: owner } = req.user;
-    const { error } = createContactSchema.validate({ name, email, phone });
-    if (error) {
-      throw HttpError(400, error.message);
-    }
-    const result = await contactsService.addContact({
-      name,
-      email,
-      phone,
-      owner,
-    });
-    res.status(201).json(result);
-  } catch (error) {
-    next(error);
+  const { _id: owner } = req.user;
+  const { error } = createContactSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
   }
+  const result = await contactsService.addContact({ ...req.body, owner });
+  res.status(201).json(result);
 };
 
 export const updateContact = async (req, res, next) => {
