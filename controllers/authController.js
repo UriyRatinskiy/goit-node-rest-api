@@ -52,7 +52,7 @@ const logoutUser = async (req, res) => {
   const { _id } = req.user;
   await authServices.updateUser({ _id }, { token: null });
 
-  res.status(200).json({ message: "Logout successful" });
+  res.status(204).json({ message: "No Content" });
 };
 
 const getCurrentUser = async (req, res) => {
