@@ -10,8 +10,11 @@ import {
 export const getAllContacts = async (req, res, next) => {
   try {
     const { _id: owner } = req.user;
-    const result = await contactsService.listContacts({ owner });
-    res.status(200).json(result);
+    console.log(req.body);
+    console.log(req.file);
+
+    //   const result = await contactsService.listContacts({ owner });
+    //   res.status(200).json(result);
   } catch (error) {
     next(error);
   }

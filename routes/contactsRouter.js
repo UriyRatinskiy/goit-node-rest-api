@@ -1,6 +1,7 @@
 import express from "express";
 import isValidId from "../middlevares/isValidId.js";
 import aunthenticate from "../middlevares/aunthenticate.js";
+import upload from "../middlevares/upload.js";
 import {
   getAllContacts,
   getOneContact,
@@ -20,7 +21,7 @@ contactsRouter.get("/:id", isValidId, getOneContact);
 
 contactsRouter.delete("/:id", isValidId, deleteContact);
 
-contactsRouter.post("/", createContact);
+contactsRouter.post("/", upload.single("poster"), createContact);
 
 contactsRouter.put("/:id", isValidId, updateContact);
 
