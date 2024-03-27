@@ -66,23 +66,22 @@ export const createContact = async (req, res, next) => {
   try {
     const { name, email, phone } = req.body;
     const { _id: owner } = req.user;
+   
+    // console.log(req.body);
+    // console.log(req.file);
+    const { error } = createContactSchema.validate({ name, email, phone });
+    if (error) {
+      throw HttpError(400, error.message);
+    }
+        // const { url: poster } = await cloudinary.uploader.upload(req.file.path, {
+    //   folder: "posters",
+    // });
+    // await fs.unlink(req.file.path);
     const { path: oldPath, filename } = req.file;
 
     const newPath = path.join(postersPath, filename);
     await fs.rename(oldPath, newPath);
     const poster = path.join("public", "poster", filename)
-    // const { url: poster } = await cloudinary.uploader.upload(req.file.path, {
-    //   folder: "posters",
-    // });
-    // await fs.unlink(req.file.path);
-
-
-    console.log(req.body);
-    console.log(req.file);
-    const { error } = createContactSchema.validate({ name, email, phone });
-    if (error) {
-      throw HttpError(400, error.message);
-    }
     const result = await contactsService.addContact({
       name,
       email,
