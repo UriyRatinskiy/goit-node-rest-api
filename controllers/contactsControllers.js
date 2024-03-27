@@ -1,3 +1,6 @@
+import fs from "fs/promises";
+import path from "path";
+
 import * as contactsService from "../services/contactsServices.js";
 import HttpError from "../helpers/HttpError.js";
 import {
@@ -7,11 +10,11 @@ import {
 } from "../schemas/contactsSchemas.js";
 // import { request } from "express";
 
+const postersPath = path.resolve("public", "posters");
+
 export const getAllContacts = async (req, res, next) => {
   try {
     const { _id: owner } = req.user;
-    console.log(req.body);
-    console.log(req.file);
 
     //   const result = await contactsService.listContacts({ owner });
     //   res.status(200).json(result);
@@ -62,10 +65,19 @@ export const createContact = async (req, res, next) => {
     if (error) {
       throw HttpError(400, error.message);
     }
+
+    console.log(req.body);
+    console.log(req.file);
+
+    const newPath = path.join(postersPath, filename);
+    await fs.rename(oldPath, newPath);
+    const poster = path.join("posters", filename);
+
     const result = await contactsService.addContact({
       name,
       email,
       phone,
+      poster,
       owner,
     });
     res.status(201).json(result);
