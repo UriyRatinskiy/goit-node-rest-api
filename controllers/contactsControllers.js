@@ -1,3 +1,8 @@
+
+import fs from "fs/promises";
+import path from "path";
+// import cloudinary from "../helpers/cloudinary.js";
+
 import * as contactsService from "../services/contactsServices.js";
 import HttpError from "../helpers/HttpError.js";
 import {
@@ -7,14 +12,15 @@ import {
 } from "../schemas/contactsSchemas.js";
 // import { request } from "express";
 
+const postersPath = path.resolve("public", "poster");
+console.log(postersPath);
+
 export const getAllContacts = async (req, res, next) => {
   try {
     const { _id: owner } = req.user;
-    console.log(req.body);
-    console.log(req.file);
-
-    //   const result = await contactsService.listContacts({ owner });
-    //   res.status(200).json(result);
+ 
+      const result = await contactsService.listContacts({ owner });
+      res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -58,6 +64,18 @@ export const createContact = async (req, res, next) => {
   try {
     const { name, email, phone } = req.body;
     const { _id: owner } = req.user;
+    const { path: oldPath, filename } = req.file;
+
+    const newPath = path.join(postersPath, filename);
+    await fs.rename(oldPath, newPath);
+    const poster = path.join("public", "poster", filename)
+    // const { url: poster } = await cloudinary.uploader.upload(req.file.path, {
+    //   folder: "posters",
+    // });
+    // await fs.unlink(req.file.path);
+
+    console.log(req.body);
+    console.log(req.file);
     const { error } = createContactSchema.validate({ name, email, phone });
     if (error) {
       throw HttpError(400, error.message);
@@ -66,6 +84,7 @@ export const createContact = async (req, res, next) => {
       name,
       email,
       phone,
+      poster,
       owner,
     });
     res.status(201).json(result);
