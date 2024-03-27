@@ -60,6 +60,8 @@ export const deleteContact = async (req, res, next) => {
   }
 };
 
+
+
 export const createContact = async (req, res, next) => {
   try {
     const { name, email, phone } = req.body;
@@ -73,6 +75,7 @@ export const createContact = async (req, res, next) => {
     //   folder: "posters",
     // });
     // await fs.unlink(req.file.path);
+
 
     console.log(req.body);
     console.log(req.file);
@@ -92,6 +95,8 @@ export const createContact = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 export const updateContact = async (req, res, next) => {
   try {
