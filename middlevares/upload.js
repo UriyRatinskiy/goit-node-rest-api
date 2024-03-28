@@ -8,9 +8,9 @@ const storage = multer.diskStorage({
   destination,
   filename: (req, file, callback) => {
     const uniquePrefix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const Filename = `${uniquePrefix}_${file.originalname}`;
-    callback(null, file.originalname);
-    // colback(null, file.originalname);
+    const filename = `${uniquePrefix}_${file.originalname}`;
+    callback(null, filename);
+    // callback(null, file.originalname);
   },
 });
 

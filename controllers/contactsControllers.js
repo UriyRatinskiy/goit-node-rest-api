@@ -17,11 +17,16 @@ console.log(postersPath);
 export const getAllContacts = async (req, res, next) => {
   try {
     const { _id: owner } = req.user;
+    const { page = 1, limit = 10 } = req.query;
+    const skip = (page - 1) * limit;
 
     //   const result = await contactsService.listContacts({ owner });
     //   res.status(200).json(result);
 
-    const result = await contactsService.listContacts({ owner });
+    const result = await contactsService.listContacts(
+      { owner },
+      { skip, limit }
+    );
     res.status(200).json(result);
   } catch (error) {
     next(error);
@@ -63,39 +68,40 @@ export const deleteContact = async (req, res, next) => {
 };
 
 export const createContact = async (req, res, next) => {
-  try {
-    const { name, email, phone } = req.body;
-    const { _id: owner } = req.user;
+  console.log(req.user);
+  // try {
+  //   const { name, email, phone } = req.body;
+  //   const { _id: owner } = req.user;
 
-    const { error } = createContactSchema.validate({ name, email, phone });
-    if (error) {
-      throw HttpError(400, error.message);
-    }
+  //   const { error } = createContactSchema.validate({ name, email, phone });
+  //   if (error) {
+  //     throw HttpError(400, error.message);
+  //   }
 
-    console.log(req.body);
-    console.log(req.file);
+  //   console.log(req.body);
+  //   console.log(req.file);
 
-    const { path: oldPath, filename } = req.file;
+  //   const { path: oldPath, filename } = req.file;
 
-    // const { url: poster } = await cloudinary.uploader.upload(req.file.path, {
-    //   folder: "posters",
-    // });
-    // await fs.unlink(req.file.path);
-    const newPath = path.join(postersPath, filename);
-    await fs.rename(oldPath, newPath);
-    const poster = path.join("public", "posters", filename);
+  //   // const { url: poster } = await cloudinary.uploader.upload(req.file.path, {
+  //   //   folder: "posters",
+  //   // });
+  //   // await fs.unlink(req.file.path);
+  //   const newPath = path.join(postersPath, filename);
+  //   await fs.rename(oldPath, newPath);
+  //   const poster = path.join("public", "posters", filename);
 
-    const result = await contactsService.addContact({
-      name,
-      email,
-      phone,
-      poster,
-      owner,
-    });
-    res.status(201).json(result);
-  } catch (error) {
-    next(error);
-  }
+  //   const result = await contactsService.addContact({
+  //     name,
+  //     email,
+  //     phone,
+  //     poster,
+  //     owner,
+  //   });
+  //   res.status(201).json(result);
+  // } catch (error) {
+  //   next(error);
+  // }
 };
 
 export const updateContact = async (req, res, next) => {
