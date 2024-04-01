@@ -3,7 +3,7 @@ import * as authServices from "../services/authServices.js";
 import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import gravatar from "gravatar";
-// import "dotenv/config;";
+import "dotenv/config";
 import fs from "fs/promises";
 import path from "path";
 import Jimp from "jimp";
