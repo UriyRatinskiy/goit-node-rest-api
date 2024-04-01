@@ -2,10 +2,13 @@ import { Schema, model } from "mongoose";
 
 import { handleSaveError, setUpdateSettings } from "./hooks.js";
 
-// import { emailRegexp } from "../constans/user-constants.js";
+import { emailRegexp, passwordRegexp } from "../constans/user-constants.js";
 
 const userSchema = new Schema(
   {
+    username: {
+      type: String,
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -20,9 +23,9 @@ const userSchema = new Schema(
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
-    // avatarURL: {
-    //   type: String,
-    // },
+    avatarURL: {
+      type: String,
+    },
     token: {
       type: String,
       default: null,

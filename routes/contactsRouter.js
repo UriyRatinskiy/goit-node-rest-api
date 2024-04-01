@@ -1,15 +1,21 @@
 import express from "express";
 import isValidId from "../middlevares/isValidId.js";
 import aunthenticate from "../middlevares/aunthenticate.js";
-import upload from "../middlevares/upload.js";
+import validateBody from "../decorators/validateBody.js";
+
 import {
   getAllContacts,
   getOneContact,
   deleteContact,
   createContact,
   updateContact,
+  updateStatusContact,
   patchFavorite,
 } from "../controllers/contactsControllers.js";
+import {
+  createContactSchema,
+  updateContactSchema,
+} from "../schemas/contactsSchemas.js";
 
 const contactsRouter = express.Router();
 
@@ -21,10 +27,17 @@ contactsRouter.get("/:id", isValidId, getOneContact);
 
 contactsRouter.delete("/:id", isValidId, deleteContact);
 
-contactsRouter.post("/", upload.single("poster"), createContact);
+contactsRouter.post("/", validateBody(createContactSchema), createContact);
 
-contactsRouter.put("/:id", isValidId, updateContact);
+contactsRouter.put(
+  "/:id",
+  validateBody(updateContactSchema),
+  isValidId,
+  updateContact
+);
 
-contactsRouter.patch("/:id/favorite", isValidId, patchFavorite);
+contactsRouter.patch("/:id/favorite", isValidId, updateStatusContact);
+
+contactsRouter.get("/favorite", patchFavorite);
 
 export default contactsRouter;
