@@ -6,7 +6,11 @@ import validateBody from "../decorators/validateBody.js";
 
 import aunthenticate from "../middlevares/aunthenticate.js";
 
-import { userSignupSchema, userSigninSchema } from "../schemas/userSchemas.js";
+import {
+  userSignupSchema,
+  userSigninSchema,
+  userEmailSchema,
+} from "../schemas/userSchemas.js";
 
 import upload from "../middlevares/upload.js";
 
@@ -18,6 +22,15 @@ authRouter.post(
   validateBody(userSignupSchema),
   authController.register
 );
+
+authRouter.get("/verify/:verificationToken", authController.verify);
+
+authRouter.post(
+  "/verify",
+  validateBody(userEmailSchema),
+  authController.resendVerifyEmail
+);
+
 authRouter.post("/login", validateBody(userSigninSchema), authController.login);
 
 authRouter.post("/logout", aunthenticate, authController.logoutUser);
