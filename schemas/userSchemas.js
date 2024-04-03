@@ -13,8 +13,5 @@ export const userSigninSchema = Joi.object({
 });
 
 export const userEmailSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required().messages({
-    "string.empty": "missing required field email",
-    "any.required": "missing required field email",
-  }),
+  email: Joi.string().pattern(emailRegexp).required(),
 });
