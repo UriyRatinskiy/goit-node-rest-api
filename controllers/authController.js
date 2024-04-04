@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import * as authServices from "../services/authServices.js";
-import HttpError from "../helpers/HttpError.js";
+
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import gravatar from "gravatar";
 import "dotenv/config";
@@ -8,6 +8,8 @@ import fs from "fs/promises";
 import path from "path";
 import Jimp from "jimp";
 import { nanoid } from "nanoid";
+
+import HttpError from "../helpers/HttpError.js";
 import sendEmail from "../helpers/sendEmail.js";
 
 const { JWT_SECRET, BASE_URL } = process.env;

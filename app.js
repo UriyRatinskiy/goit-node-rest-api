@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 import "dotenv/config";
 
 import authRouter from "./routes/authRouter.js";
-
 import contactsRouter from "./routes/contactsRouter.js";
 
 const { DB_HOST, PORT = 3000 } = process.env;
@@ -44,3 +43,5 @@ mongoose
     console.log(error.message);
     process.exit(1);
   });
+
+export default app;
